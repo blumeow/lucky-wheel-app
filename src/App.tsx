@@ -106,15 +106,16 @@ const LuckyWheel: FC<{
     return segments.length - 1;
   };
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    canvas.width = 600;
-    canvas.height = 600;
-    drawWheel(ctx, canvas.width, canvas.height, rotation);
-  }, [rotation, canSpin]);
+// eslint-disable-next-line react-hooks/exhaustive-deps
+useEffect(() => {
+  const canvas = canvasRef.current;
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  canvas.width = 600;
+  canvas.height = 600;
+  drawWheel(ctx, canvas.width, canvas.height, rotation);
+}, [rotation, canSpin]);
 
   const spin = () => {
     if (spinning || !canSpin) return;
@@ -266,6 +267,7 @@ const LuckyWheel: FC<{
         <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
         <img
   src={canSpin ? "/3ef1f054-13f6-42dd-8659-34c00f6c687c.png" : "/gray-3ef1f054-13f6-42dd-8659-34c00f6c687c.png"}
+  alt=""
   style={{
     position: 'absolute',
     top: '50%',
@@ -277,7 +279,7 @@ const LuckyWheel: FC<{
     zIndex: 1
   }}
 />
-        <img src="/pointer.png" style={pointerStyle} />
+<img src="/pointer.png" alt="" style={pointerStyle} />
         {canSpin && !spinning && !result && (
           <div style={{ position: 'absolute', top: '-40px', left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
             <button onClick={spin} style={{ padding: '15px 40px', fontSize: '20px', background: '#7F5AF0', color: 'white', border: 'none', borderRadius: '10px', fontFamily: 'Orbitron, sans-serif', cursor: 'pointer', boxShadow: '0 0 15px rgba(127, 90, 240, 0.7)', transition: 'all 0.3s ease' }}>
