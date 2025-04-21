@@ -115,8 +115,9 @@ const LuckyWheel: FC<{
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    canvas.width = 600;
-    canvas.height = 600;
+    const size = Math.min(window.innerWidth, 600);
+    canvas.width = size;
+    canvas.height = size;
     drawWheel(ctx, canvas.width, canvas.height, rotation);
   }, [rotation, canSpin, drawWheel]);  
 
