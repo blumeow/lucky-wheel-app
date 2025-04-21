@@ -1,5 +1,5 @@
 import { Buffer } from 'buffer';
-import React, { FC, useMemo, useState, useEffect, useRef } from 'react';
+import React, { FC, useMemo, useState, useEffect, useRef, useCallback } from 'react';
 import { ConnectionProvider, WalletProvider, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { PublicKey, Transaction } from '@solana/web3.js';
@@ -62,39 +62,43 @@ const LuckyWheel: FC<{
     localStorage.setItem('recentWins', JSON.stringify(recentWins));
   }, [recentWins]);  
 
-  const drawWheel = (ctx: CanvasRenderingContext2D, width: number, height: number, rot: number) => {
-    const radius = 250;
-    const cx = width / 2;
-    const cy = height / 2;
-    const angleStep = (2 * Math.PI) / segments.length;
-
-    ctx.clearRect(0, 0, width, height);
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(rot);
-
-    for (let i = 0; i < segments.length; i++) {
-      const start = i * angleStep;
-      const end = start + angleStep;
-
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.arc(0, 0, radius, start, end);
-      ctx.fillStyle = canSpin ? `hsl(${(i * 360) / segments.length}, 100%, 60%)` : '#ccc';
-      ctx.fill();
-
+  const drawWheel = useCallback(
+    (ctx: CanvasRenderingContext2D, width: number, height: number, rot: number) => {
+      const radius = 250;
+      const cx = width / 2;
+      const cy = height / 2;
+      const angleStep = (2 * Math.PI) / segments.length;
+  
+      ctx.clearRect(0, 0, width, height);
       ctx.save();
-      ctx.rotate(start + angleStep / 2);
-      ctx.translate(radius - 50, 0);
-      ctx.rotate(Math.PI / 2);
-      ctx.fillStyle = '#000';
-      ctx.font = '18px Orbitron, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(segments[i].label, 0, 0);
+      ctx.translate(cx, cy);
+      ctx.rotate(rot);
+  
+      for (let i = 0; i < segments.length; i++) {
+        const start = i * angleStep;
+        const end = start + angleStep;
+  
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.arc(0, 0, radius, start, end);
+        ctx.fillStyle = canSpin ? `hsl(${(i * 360) / segments.length}, 100%, 60%)` : '#ccc';
+        ctx.fill();
+  
+        ctx.save();
+        ctx.rotate(start + angleStep / 2);
+        ctx.translate(radius - 50, 0);
+        ctx.rotate(Math.PI / 2);
+        ctx.fillStyle = '#000';
+        ctx.font = '18px Orbitron, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(segments[i].label, 0, 0);
+        ctx.restore();
+      }
+  
       ctx.restore();
-    }
-    ctx.restore();
-  };
+    },
+    [canSpin] // závislost (protože ji používáš uvnitř funkce)
+  );  
 
   const weightedRandomIndex = () => {
     const total = segments.reduce((acc, seg) => acc + seg.chance, 0);
