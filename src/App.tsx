@@ -371,20 +371,23 @@ const Content: FC<{ showLuckyWheel: boolean, setShowLuckyWheel: (show: boolean) 
   };
 
   return (
-<div
-  style={{
-    position: 'relative',
-    width: '100vw',
-    height: '100vh',
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingTop: '40px',
-    boxSizing: 'border-box'
-  }}
->
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 0,
+        margin: 0,
+        boxSizing: 'border-box'
+      }}
+    >  
       {showSuccessAlert && (
   <div style={{
     position: 'fixed',
