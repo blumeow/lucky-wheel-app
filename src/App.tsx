@@ -371,7 +371,20 @@ const Content: FC<{ showLuckyWheel: boolean, setShowLuckyWheel: (show: boolean) 
   };
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: '40px', overflow: 'hidden' }}>
+<div
+  style={{
+    position: 'relative',
+    width: '100vw',
+    height: '100vh',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: '40px',
+    boxSizing: 'border-box'
+  }}
+>
       {showSuccessAlert && (
   <div style={{
     position: 'fixed',
@@ -442,7 +455,22 @@ const App: FC = () => {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <div style={{ backgroundColor: '#0B88F8', position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
+        <div
+  style={{
+    backgroundColor: '#0B88F8',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    margin: 0,
+    padding: 0,
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }}
+>
             <Content showLuckyWheel={showLuckyWheel} setShowLuckyWheel={setShowLuckyWheel} />
           </div>
         </WalletModalProvider>
